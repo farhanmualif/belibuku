@@ -58,10 +58,6 @@ class model
     })
   }
 
-  insert(){
-    
-  }
-
 
   update(req){
     const data = req.body

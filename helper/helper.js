@@ -8,7 +8,7 @@ function getRole(id) {
       if (err) {
         reject(err)
       }
-      solve(result[0].name)
+      solve(result)
     })
   })
 }

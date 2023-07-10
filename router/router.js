@@ -1,25 +1,25 @@
 const express = require('express');
 const router = express.Router()
 
-const auth = require('../middleware/auth')
-const SellerPermision = require('../middleware/SellerPermision')
-const { login_form, login , register_form, register, logout } = require('../controller/authController')
-const { index, store, form, show, update, remove } = require('../controller/bookController');
+const { authMiddleware, custPermision, sellerPermision } = require('../middleware/auth')
 
+const { login_form, login, register_form, register, logout } = require('../controller/authController')
+const { index, store, form, show, update, remove } = require('../controller/bookController');
+const { addCart } = require('../controller/cartController');
 
 router.post('/register', register)
 router.get('/login-form', login_form)
-router.post('/login',  login);
-router.get('/register-form',register_form)
+router.post('/login', login);
+router.get('/register-form', register_form)
 
-router.use(auth)
-router.get('/book-form', [auth, SellerPermision], form)
-router.post('/book-insert', [auth, SellerPermision], store)
-router.get('/home',auth, index)
-router.get('/detail/:id', auth, show)
-router.post('/update/:id', auth, update)
-router.post('/delete-book/:id',auth,remove)
-
+router.use(authMiddleware)
+router.get('/home', index)
+router.get('/detail/:id', show)
+router.post('/update/:id', update)
+router.post('/delete-book/:id', remove)
 router.post('/logout', logout)
+router.get('/book-form', [sellerPermision], form)
+router.post('/book-insert', [sellerPermision], store)
+router.post('/add-cart/:id', [custPermision], addCart)
 
 module.exports = router

@@ -13,6 +13,24 @@ class cartModel extends model
   getUserCartProduct(){
     // code ..
   }
+
+  insertCart(req){
+    db.connect()
+    db.beginTransaction((err)=>{
+
+      if (err) {
+        throw err
+      }
+
+      db.query(`INSERT INTO ${this.table} (${this.fields.join(",")}) VALUES ('${req.params.id}','${req.session.userId}')`,(err, result)=>{
+        if (err) {
+          throw err
+        }
+        console.log(result)
+      })
+      
+    }) 
+  }
 }
 
 module.exports = cartModel

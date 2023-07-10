@@ -53,7 +53,7 @@
               <td><%= row.publisher %></td>
               <td>Rp. <%= row.price %></td>
               <td>
-                <% if(role == 'seller') { %>
+                
                 <a href="/detail/<%= row.id %>" type="button" class="btn btn-info btn-sm mb-2">Detail
                   
                 </a>
@@ -62,9 +62,9 @@
                     Delete
                   </button>
                 </form>
-                <% } else { %>
-                  <a href="/detail/<%= row.id %>" type="button" class="btn btn-info btn-sm mb-2">Buy</a>
-                  <% } %>
+               
+                  <a href="/add-cart/<%= row.id %>" type="button" class="btn btn-info btn-sm my-2">Buy</a>
+                  
               </td>
             </tr>
           <% }); %>
@@ -72,15 +72,11 @@
 
         </tbody>
       </table>
-      <% if (role == 'seller') {%>
+      
       <div class="col-12 my-2">
         <a href="/book-form" type="button" class="btn btn-primary">Add Book</a>
       </div>
-      <% } else { %>
-        <div class="col-12 my-2">
-          
-        </div>
-        <% } %>
+
     </div>
     <div class="container">
       <form method="post" action="/logout">

@@ -11,6 +11,7 @@ function login_form (req, res){
     res.render('login')
 }
 
+
 async function login(req, res) {
   const { email, password } = req.body;
   
@@ -21,10 +22,9 @@ async function login(req, res) {
         req.session.name  = e.name
         req.session.isLogIn  = true
         req.session.userId = e.id
-        res.redirect('/home')
-        break
+        return res.redirect('/home')
       }
-      res.redirect('/login-form')
+      return res.redirect('/login-form')
   }
 }
 
