@@ -1,14 +1,16 @@
 const db = require('../config/Database');
 const bookModel = require('../model/bookModel');
-const {getRole} = require('../helper/helper')
+const {getRole} = require('../helper/helper');
+const cartModel = require('../model/cartModel');
 const book = new bookModel()
 
+const cart = new cartModel()
 
 async function index(req, res) {
   try {
     const row =  await book.all()
     const role = await getRole(req.session.userId)
-    return res.render('index',{data:row, req, role})
+    return res.render('index',{data:row, req, role: role.name})
   } catch (error) {
     console.log(error)
     throw error

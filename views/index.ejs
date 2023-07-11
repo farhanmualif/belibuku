@@ -10,6 +10,14 @@
     <div class="container">
 
       <h1 class="my-5">Hello, <%= req.session.name %>!</h1>
+      <div class="container">
+          <div class="row mb-3 float-end">
+            <div class="col-12 ">
+              <a href="/cart" type="button" class="btn btn-primary">
+                <img src="icons/cart.svg" height="25px" alt="Icons Cart">cart</a>
+            </div>
+          </div>
+      </div>
 
       <div class="container my-5">
         <form>
@@ -36,11 +44,7 @@
             <th scope="col">Author</th>
             <th scope="col">Publisher</th>
             <th scope="col">Price</th>
-            <% if (role == 'seller') { %>
             <th scope="col">Action</th>
-            <% } else { %>
-              <th></th>
-              <% } %>
           </tr>
         </thead>
         <tbody>
@@ -53,18 +57,21 @@
               <td><%= row.publisher %></td>
               <td>Rp. <%= row.price %></td>
               <td>
-                
+                <% if (role === 'seller') {%>
                 <a href="/detail/<%= row.id %>" type="button" class="btn btn-info btn-sm mb-2">Detail
-                  
                 </a>
                 <form method="post" action="/delete-book/<%= row.id  %>" id="delete-btn" onsubmit="return confirmDelete('<%= row.title %>')" id="delete-btn">
                   <button type="submit" class="btn btn-danger btn-sm">
                     Delete
                   </button>
                 </form>
-               
-                  <a href="/add-cart/<%= row.id %>" type="button" class="btn btn-info btn-sm my-2">Buy</a>
-                  
+               <% } else {%>
+                <form method="post" action="/add-cart/<%= row.id  %>" id="cart-btn">
+                  <button type="submit" class="btn btn-success btn-sm">
+                    Cart
+                  </button>
+                </form>
+                <% } %>
               </td>
             </tr>
           <% }); %>
@@ -72,11 +79,12 @@
 
         </tbody>
       </table>
+      <% if (role === 'seller') { %>
+        <div class="col-12 my-2">
+          <a href="/book-form" type="button" class="btn btn-primary">Add Book</a>
+        </div>
+      <% } %>
       
-      <div class="col-12 my-2">
-        <a href="/book-form" type="button" class="btn btn-primary">Add Book</a>
-      </div>
-
     </div>
     <div class="container">
       <form method="post" action="/logout">

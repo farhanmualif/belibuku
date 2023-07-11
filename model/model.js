@@ -34,7 +34,7 @@ class model
   where(column, value){
     return new Promise((resolve, reject)=>{
       db.connect()
-      return db.query(`select * from ${this.table} where ${column}='${value}'`, (err, row)=>{
+      return db.query(`SELECT * FROM ${this.table} WHERE ${column}='${value}'`, (err, row)=>{
         if (err) {
           reject(err)
         }
