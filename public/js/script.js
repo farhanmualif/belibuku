@@ -24,6 +24,7 @@ $('#total-price').html(`<label class="badge text-bg-success">Rp. ${totalPrice}</
 $('input[type="checkbox"]').on('change', function() {
 
   const price = $(this).data('price');
+
   const currentRow = $(this).closest("tr");
   const getCount = currentRow.find('td:eq(3)').text();
   const count = parseInt(getCount);
@@ -32,11 +33,6 @@ $('input[type="checkbox"]').on('change', function() {
   let checkLength = $('input[type="checkbox"]:checked').length;
   if (this.checked) {
     totalCount = totalCount + count;
-    // sampai sini
-    const title_count = {
-      
-    }
-    book.push(title)
   } else {
     totalCount = totalCount - count;
     const index = book.indexOf(title);
@@ -47,7 +43,7 @@ $('input[type="checkbox"]').on('change', function() {
 
   totalPrice = totalCount * price;
   if (checkLength > 0 && $('.button-pay').length === 0) {
-    $('#form-data').append('<button type="button" class="btn btn-primary btn-sm button-pay" id="pay-now">Pay Now</button>');
+    $('#form-data').append('<button type="submit" class="btn btn-primary btn-sm button-pay" id="pay-now">Checkout</button>');
   } else if (checkLength === 0) {
     $('.button-pay').remove();
   }
@@ -56,7 +52,13 @@ $('input[type="checkbox"]').on('change', function() {
   $('#total-price').html(`<label class="badge text-bg-success">Rp. ${totalPrice}</label>`);
 
   $("#pay-now").on("click", ()=>{
-    console.log()
+    book.push({title: title, count: count, price: price})
+    let struct = {
+      books : book,
+      totalCount,
+      totalPrice,
+  }
+  $('#data').val(JSON.stringify(struct))
   })
 });
 

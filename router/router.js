@@ -5,7 +5,7 @@ const { authMiddleware, custPermision, sellerPermision } = require('../middlewar
 
 const { login_form, login, register_form, register, logout } = require('../controller/authController')
 const { index, store, form, show, update, remove } = require('../controller/bookController');
-const { addCart, showCart } = require('../controller/cartController');
+const { addCart, showCart, pay, checkoutPage } = require('../controller/cartController');
 
 router.post('/register', register)
 router.get('/login-form', login_form)
@@ -22,5 +22,6 @@ router.get('/book-form', [sellerPermision], form)
 router.post('/book-insert', [sellerPermision], store)
 router.post('/add-cart/:id', [custPermision], addCart)
 router.get('/cart', [custPermision], showCart)
+router.post('/checkout-page', [custPermision], checkoutPage)
 
 module.exports = router

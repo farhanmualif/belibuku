@@ -1,10 +1,7 @@
 const db = require('../config/Database');
 const bookModel = require('../model/bookModel');
 const {getRole} = require('../helper/helper');
-const cartModel = require('../model/cartModel');
 const book = new bookModel()
-
-const cart = new cartModel()
 
 async function index(req, res) {
   try {

@@ -20,6 +20,7 @@ async function login(req, res) {
       const compare_password = await bcrypt.compare(password, e.password)
       if (compare_password) {
         req.session.name  = e.name
+        req.session.email  = e.email
         req.session.isLogIn  = true
         req.session.userId = e.id
         return res.redirect('/home')

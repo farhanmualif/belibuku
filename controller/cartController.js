@@ -20,5 +20,13 @@ async function addCart(req, res) {
   }
 }
 
+function checkoutPage(req, res) {
+  const {data} = req.body
+  const datas = JSON.parse(data)
+  return res.render('checkout',{req, datas})
+}
 
-module.exports = { addCart, showCart }
+
+
+
+module.exports = { addCart, showCart, checkoutPage }
