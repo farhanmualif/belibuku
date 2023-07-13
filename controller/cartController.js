@@ -1,5 +1,7 @@
+const addressModel = require('../model/addressModel')
 const cartModel  = require('../model/cartModel')
 const cart = new cartModel()
+const address = new addressModel()
 
 async function showCart(req, res){
   try {
@@ -20,13 +22,17 @@ async function addCart(req, res) {
   }
 }
 
-function checkoutPage(req, res) {
+async function checkoutPage(req, res) {
+  const userAddress = await address.getCountryUser(req.session.userId)
   const {data} = req.body
   const datas = JSON.parse(data)
-  return res.render('checkout',{req, datas})
+  return res.render('checkout',{req, datas, userAddress})
 }
 
+// sampai sini
+function checkout(req, res) {
+  const {fullname, email, address, country, zip, paymentMethod} = req.body
+  console.log(fullname, email, address, country, zip, paymentMethod)
+}
 
-
-
-module.exports = { addCart, showCart, checkoutPage }
+module.exports = { addCart, showCart, checkoutPage, checkout }
