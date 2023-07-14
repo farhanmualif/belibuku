@@ -75,6 +75,8 @@
                         <div class="input-group">
                            <input type="text" class="form-control" name="fullname" id="fullname" placeholder="fullname" value="<%= e.name %>" required>
                            <input type="hidden" name="book_id" value="<%= datas.books[0].book_id %>">
+                           <input type="hidden" name="seller_id" value="<%= datas.books[0].seller_id %>">
+                           <input type="hidden" name="cust_id" value="<%= req.session.userId %>">
                            <div class="invalid-feedback" style="width: 100%;">
                               Your fullname is required.
                            </div>

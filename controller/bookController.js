@@ -5,7 +5,7 @@ const book = new bookModel()
 
 async function index(req, res) {
   try {
-    const row =  await book.all()
+    const row =  await book.getUsersAndBooks()
     const role = await getRole(req.session.userId)
     return res.render('index',{data:row, req, role: role.name})
   } catch (error) {

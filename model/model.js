@@ -1,5 +1,6 @@
 const db = require('../config/Database')
-
+const now = Date.now();
+const date = new Date(now);
 class model
 {
   constructor(){
@@ -44,12 +45,12 @@ class model
     })
   }
   
-  create(req){
-    const data = req.body
+  create(values){
+
+    const datenow = this.getTime()
     return new Promise((solve, reject)=>{
-      const value = Object.values(data).map(e=>`'${e}'`)
       db.connect()
-      return db.query(`INSERT INTO ${this.table} (${this.fields.join(",")} ) VALUES (${value.join(",")})`, (err, result)=>{
+      return db.query(`INSERT INTO ${this.table} (${this.fields.join(",")}) VALUES (${values.map(e=> `'${e}'`)},STR_TO_DATE(${datenow}, '%d-%m-%Y %H:%i:%s'))`, (err, result)=>{
         if (err) {
           reject(err)
         }
@@ -85,11 +86,14 @@ class model
   }
 
   getTime(){
-    const currentDayOfMonth = currentDate.getDate();
-    const currentMonth = currentDate.getMonth(); // Be careful! January is 0, not 
-    const currentYear = currentDate.getFullYear();
-    const dateString = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
-    return dateString
+    const year = date.getFullYear();
+    const month = date.getMonth()+1;
+    const day = date.getDate();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    const datenow = `'${day}-${month}-${year} ${hours}:${minutes}:${seconds}'`
+    return datenow
   }
 }
 

@@ -20,7 +20,17 @@ class userModel extends model
         solve(result[0])
       })
     })
-
+  }
+  getUserWhereBookId(book_id = null){
+    if (book_id == null) {
+      throw "terjadi kesalahan"
+    }
+    db.connect()
+    return new Promise((solve, reject)=>{
+      return db.query(`SELECT users.id, users.name, users.email FROM tb_book JOIN user_book on tb_book.id = user_book.book_id JOIN users on users.id = user_book.user_id WHERE tb_book.id = ${book_id} `, (err, result)=>{
+        (err) ? reject(err) : solve(result)
+      })
+    })
   }
 }
 

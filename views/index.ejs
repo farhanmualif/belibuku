@@ -13,6 +13,15 @@
       <div class="container">
           <div class="row mb-3 float-end">
             <div class="col-12 ">
+              <a href="/get-transaction/<%= req.session.userId %>" type="button" class="btn btn-primary">
+                <img src="icons/list.svg" class="mb-1" height="25px" alt="Icons Cart">MyBooking</a>
+            </div>
+          </div>
+      </div>
+
+      <div class="container">
+          <div class="row mb-3 mx-2 float-end">
+            <div class="col-12 ">
               <a href="/cart" type="button" class="btn btn-primary">
                 <img src="icons/cart.svg" height="25px" alt="Icons Cart">cart</a>
             </div>
@@ -66,7 +75,10 @@
                   </button>
                 </form>
                <% } else {%>
-                <form method="post" action="/add-cart/<%= row.id  %>" id="cart-btn">
+                <form method="post" action="/add-cart" id="cart-btn">
+                  <input type="text" value="<%= row.book_id %>" name="book_id" hidden>
+                  <input type="text" value="<%= req.session.userId %>" name="cust_id" hidden>
+                  <input type="text" value="<%= row.user_id %>" name="seller_id" hidden>
                   <button type="submit" class="btn btn-success btn-sm">
                     Cart
                   </button>

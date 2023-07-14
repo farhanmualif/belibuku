@@ -8,10 +8,21 @@ class bookModel extends model {
     this.fields = ['title', 'author', 'publisher','price']
   }
 
-  getBooksWhereUserId(id){
+  getBookWhereUserId(id){
     db.connect()
     return new Promise((solve, reject)=>{
       return db.query(`SELECT tb_book.* FROM users JOIN user_book on users.id = users_book.user_id JOIN tb_book on user_book.book_id = tb_book.id where users.id=${id}`, (err, result) => {
+        if (err) {
+          reject(err)
+        }
+        solve(result)
+      })
+    })
+  }
+  getUsersAndBooks(){
+    db.connect()
+    return new Promise((solve, reject)=>{
+      return db.query(`SELECT * FROM users JOIN user_book on users.id = user_book.user_id JOIN tb_book on user_book.book_id = tb_book.id`, (err, result) => {
         if (err) {
           reject(err)
         }

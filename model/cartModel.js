@@ -7,13 +7,13 @@ class cartModel extends model
   {
     super()
     this.table = 'cart'
-    this.fields = ['book_id','user_id']
+    this.fields = ['book_id','cust_id','seller_id','created_at']
   }
 
-  getCartProduct(id){
+  getCartProduct(cust_id){
     db.connect()
     return new Promise((solve, reject) => {
-      return db.query(`SELECT tb_book.*, COUNT(*) AS jumlah from users JOIN cart ON users.id = cart.user_id JOIN tb_book ON cart.book_id = tb_book.id WHERE users.id = ${id} GROUP BY cart.book_id;`, (err, result)=>{
+      return db.query(`SELECT tb_book.*, COUNT(*) AS jumlah, cart.seller_id FROM users JOIN cart ON users.id = cart.cust_id JOIN tb_book ON cart.book_id = tb_book.id WHERE users.id = ${cust_id} GROUP BY tb_book.id, cart.seller_id; `, (err, result)=>{
         if (err) {
           console.log(err)
           reject(err)
@@ -23,7 +23,7 @@ class cartModel extends model
     })
   }
 
-  insertCart(req){
+  insertCart(book_id, cust_id, seller_id){
     db.connect()
     db.beginTransaction((err)=>{
 
@@ -31,7 +31,7 @@ class cartModel extends model
         throw err
       }
 
-      db.query(`INSERT INTO cart (book_id, user_id) VALUES ('${req.params.id}','${req.session.userId}')`,(err, result)=>{
+      db.query(`INSERT INTO cart (book_id, cust_id, seller_id) VALUES ('${book_id}','${cust_id}',${seller_id})`,(err, result)=>{
 
         if (err) {
           throw err
@@ -50,6 +50,8 @@ class cartModel extends model
       
     }) 
   }
+
+
 }
 
 module.exports = cartModel

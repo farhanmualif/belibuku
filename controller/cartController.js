@@ -1,12 +1,21 @@
 const addressModel = require('../model/addressModel')
 const cartModel  = require('../model/cartModel')
+const userModel = require('../model/userModel')
 const cart = new cartModel()
+const user = new userModel()
 const address = new addressModel()
 
 async function showCart(req, res){
   try {
     const row = await cart.getCartProduct(req.session.userId)
-    return res.render('cart',{row})
+    let user_id = 0
+    if (row[0] != undefined) {
+      user_id = row[0].id
+    } else {
+      user_id = 0
+    }
+    const owner = await user.getUserWhereBookId(user_id)
+    return res.render('cart',{row, owner})
   } catch (error) {
     console.log(error)
   }
@@ -14,7 +23,7 @@ async function showCart(req, res){
 
 async function addCart(req, res) {
   try {
-    cart.insertCart(req)
+    cart.create(Object.values(req.body))
     req.flash('success', 'berhasil menambahkan buku ke keranjang')
     return res.redirect('/home')
   } catch (error) {
@@ -24,16 +33,10 @@ async function addCart(req, res) {
 
 async function checkoutPage(req, res) {
   const userAddress = await address.getCountryUser(req.session.userId)
-  
   const {data} = req.body
   const datas = JSON.parse(data)
-  console.log(datas)
   return res.render('checkout',{req, datas, userAddress})
 }
 
-// sampai sini
-function checkout(req, res) {
 
-}
-
-module.exports = { addCart, showCart, checkoutPage, checkout }
+module.exports = { addCart, showCart, checkoutPage }
