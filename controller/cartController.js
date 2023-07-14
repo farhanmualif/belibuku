@@ -24,15 +24,16 @@ async function addCart(req, res) {
 
 async function checkoutPage(req, res) {
   const userAddress = await address.getCountryUser(req.session.userId)
+  
   const {data} = req.body
   const datas = JSON.parse(data)
+  console.log(datas)
   return res.render('checkout',{req, datas, userAddress})
 }
 
 // sampai sini
 function checkout(req, res) {
-  const {fullname, email, address, country, zip, paymentMethod} = req.body
-  console.log(fullname, email, address, country, zip, paymentMethod)
+
 }
 
 module.exports = { addCart, showCart, checkoutPage, checkout }

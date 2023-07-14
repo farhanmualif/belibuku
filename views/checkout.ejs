@@ -53,6 +53,7 @@
                         </div>
                         <div>
                            <strong><%= datas.totalPrice %></strong>
+                           
                         </div>
                      </li>
                   </ul>
@@ -68,11 +69,12 @@
                <div class="col-md-8 order-md-1">
                   <h4 class="mb-3">Billing address</h4>
                   <% userAddress.forEach(e => { %>
-                  <form  class="needs-validation mt-3" method="post" action="/checkout" novalidate>
+                  <form  class="needs-validation mt-3" method="post" action="/transaction" novalidate>
                      <div class="mb-3">
                         <label for="fullname">Fullname</label>
                         <div class="input-group">
                            <input type="text" class="form-control" name="fullname" id="fullname" placeholder="fullname" value="<%= e.name %>" required>
+                           <input type="hidden" name="book_id" value="<%= datas.books[0].book_id %>">
                            <div class="invalid-feedback" style="width: 100%;">
                               Your fullname is required.
                            </div>

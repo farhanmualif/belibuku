@@ -31,7 +31,8 @@ async function show(req, res) {
 async function store(req, res) {
   try {
     const create = await book.create(req)
-    console.log(create)
+    const insertUserBook = await book.insertUserBook(req.session.userId,create.insertId)
+    console.log(insertUserBook)
     req.flash('success', 'berhasil insert data')
     return res.redirect('/home')
   } catch (error) {
@@ -41,7 +42,6 @@ async function store(req, res) {
 }
 
 function form(req, res) {
-
   res.render('book-form')
 }
 

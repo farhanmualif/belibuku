@@ -27,7 +27,7 @@ $('input[type="checkbox"]').on('change', function() {
 
   const currentRow = $(this).closest("tr");
   const getCount = currentRow.find('td:eq(4)').text();
-  const idBook = currentRow.find('td:eq(4)').text()
+  const idBook = currentRow.find('td:eq(0)').text()
   const count = parseInt(getCount);
   const title = currentRow.find('td:eq(1)').text();
 
@@ -53,7 +53,7 @@ $('input[type="checkbox"]').on('change', function() {
   $('#total-price').html(`<label class="badge text-bg-success">Rp. ${totalPrice}</label>`);
 
   $("#pay-now").on("click", ()=>{
-    book.push({id_book: idBook, title: title, count: count, price: price})
+    book.push({book_id: idBook, title: title, count: count, price: price})
     let struct = {
       books : book,
       totalCount,

@@ -26,7 +26,7 @@ exports.custPermision = async function CustomerPermision(req, res, next) {
 exports.sellerPermision = async function SellerPermision(req, res, next) {
   const model = await user.getUserWithRole(req.session.userId)
   try {
-    if (model.role_name !== 'customer') {
+    if (model.role_name !== 'seller') {
       return res.send('Your Not Permission')
     } 
     next()

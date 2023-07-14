@@ -12,7 +12,7 @@ class cartModel extends model
 
   getCartProduct(id){
     db.connect()
-    return new Promise((solve, reject)=>{
+    return new Promise((solve, reject) => {
       return db.query(`SELECT tb_book.*, COUNT(*) AS jumlah from users JOIN cart ON users.id = cart.user_id JOIN tb_book ON cart.book_id = tb_book.id WHERE users.id = ${id} GROUP BY cart.book_id;`, (err, result)=>{
         if (err) {
           console.log(err)

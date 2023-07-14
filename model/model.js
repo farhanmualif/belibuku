@@ -5,6 +5,7 @@ class model
   constructor(){
     this.table = null
     this.fields = []
+    this.timeStamps = false
   }
   
   all(){
@@ -43,13 +44,12 @@ class model
     })
   }
   
-
   create(req){
     const data = req.body
     return new Promise((solve, reject)=>{
       const value = Object.values(data).map(e=>`'${e}'`)
       db.connect()
-      return db.query(`INSERT INTO ${this.table} (${this.fields.join(",")}) VALUES (${value.join(",")})`, (err, result)=>{
+      return db.query(`INSERT INTO ${this.table} (${this.fields.join(",")} ) VALUES (${value.join(",")})`, (err, result)=>{
         if (err) {
           reject(err)
         }
@@ -57,7 +57,6 @@ class model
       })
     })
   }
-
 
   update(req){
     const data = req.body
@@ -83,6 +82,14 @@ class model
         solve(result)
       })
     })
+  }
+
+  getTime(){
+    const currentDayOfMonth = currentDate.getDate();
+    const currentMonth = currentDate.getMonth(); // Be careful! January is 0, not 
+    const currentYear = currentDate.getFullYear();
+    const dateString = currentDayOfMonth + "-" + (currentMonth + 1) + "-" + currentYear;
+    return dateString
   }
 }
 
