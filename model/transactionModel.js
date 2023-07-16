@@ -21,10 +21,16 @@ class transactionModel extends model
     })
   }
 
-  getTransaction(id){
+  getTransaction(req){
+    const id = req.params.id
+    const query = `SELECT tb_book.*, transaction.*
+    FROM users
+    JOIN transaction ON users.id = transaction.cust_id
+    JOIN tb_book ON transaction.book_id = tb_book.id
+    WHERE users.id = ${id}`
     return new Promise((solve, reject)=>{
       db.connect()
-      return db.query(`SELECT tb_book.*, transaction.* FROM users JOIN transaction on users.id = transaction.cust_id JOIN tb_book on transaction.book_id = tb_book.id WHERE users.id = ${id}`, (err, result)=>{
+      return db.query(query,(err, result)=>{
         if (err) {
           reject(err)
         }

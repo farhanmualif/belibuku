@@ -10,7 +10,7 @@
     <div class="container">     
       <h1 class="my-5">Insert buku</h1>
       
-        <form method="post" action="/book-insert">
+        <form method="post" action="/book-insert" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Title</label>
             <input type="text" class="form-control" name="title" id="exampleInputEmail1">
@@ -26,6 +26,10 @@
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Price</label>
             <input type="number" class="form-control" name="price" id="exampleInputPassword1" >
+          </div>
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Image</label>
+            <input class="form-control" type="file" id="formFile" name="image">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -6,7 +6,7 @@ const { authMiddleware, custPermision, sellerPermision } = require('../middlewar
 const { login_form, login, register_form, register, logout } = require('../controller/authController')
 const { index, store, form, show, update, remove } = require('../controller/bookController');
 const { addCart, showCart, checkoutPage } = require('../controller/cartController');
-const { createTransaction, getTransaction } = require('../controller/transactionController')
+const { createTransaction, getMyTransaction } = require('../controller/transactionController')
 
 router.post('/register', register)
 router.get('/login-form', login_form)
@@ -17,7 +17,7 @@ router.use(authMiddleware)
 router.get('/home', index)
 router.get('/detail/:id', show)
 router.post('/update/:id', update)
-router.post('/delete-book/:id', remove)
+router.post('/delete-book/:id/:img', remove)
 router.post('/logout', logout)
 router.get('/book-form', [sellerPermision], form)
 router.post('/book-insert', [sellerPermision], store)
@@ -25,6 +25,6 @@ router.post('/add-cart', [custPermision], addCart)
 router.get('/cart', [custPermision], showCart)
 router.post('/checkout-page', [custPermision], checkoutPage)
 router.post('/transaction', [custPermision], createTransaction)
-router.get('/get-transaction/:id', [custPermision], getTransaction)
+router.get('/get-transaction/:id', [custPermision], getMyTransaction)
 
 module.exports = router

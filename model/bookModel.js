@@ -5,7 +5,7 @@ class bookModel extends model {
   constructor(){
     super();
     this.table = 'tb_book';
-    this.fields = ['title', 'author', 'publisher','price']
+    this.fields = ['title', 'author', 'publisher','price','image','created_at']
   }
 
   getBookWhereUserId(id){

@@ -45,8 +45,19 @@ class model
     })
   }
   
+  deleteWhere(column,operator,value){
+    return new Promise((resolve, reject)=>{
+      db.connect()
+      return db.query(`DELETE FROM ${this.table} WHERE ${column}${operator}'${value}'`, (err, row)=>{
+        if (err) {
+          reject(err)
+        }
+        resolve(row)
+      })
+    })
+  }
+  
   create(values){
-
     const datenow = this.getTime()
     return new Promise((solve, reject)=>{
       db.connect()
@@ -73,10 +84,10 @@ class model
   }
 
 
-  delete(req){
+  delete(id){
     db.connect()
     return new Promise((solve,reject)=>{
-      db.query(`DELETE FROM ${this.table} WHERE id = '${req.params.id}'`,(err, result)=>{
+      db.query(`DELETE FROM ${this.table} WHERE id = '${id}'`,(err, result)=>{
         if (err) {
           reject(err)
         }

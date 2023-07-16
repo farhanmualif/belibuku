@@ -10,7 +10,8 @@
     <div class="container">
 
       <h1 class="my-5">Hello, <%= req.session.name %>!</h1>
-      <div class="container">
+      <% if (role === 'customer') { %>
+        <div class="container">
           <div class="row mb-3 float-end">
             <div class="col-12 ">
               <a href="/get-transaction/<%= req.session.userId %>" type="button" class="btn btn-primary">
@@ -27,6 +28,10 @@
             </div>
           </div>
       </div>
+      <% } else { %>
+        <div class="container"></div>
+        <% } %>
+      
 
       <div class="container my-5">
         <form>
@@ -45,7 +50,7 @@
           </div>
         <% } %>
 
-      <table class="table" id="myTable">
+      <table class="table text-center table-bordered" id="myTable">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -53,6 +58,7 @@
             <th scope="col">Author</th>
             <th scope="col">Publisher</th>
             <th scope="col">Price</th>
+            <th scope="col">Image</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -66,10 +72,15 @@
               <td><%= row.publisher %></td>
               <td>Rp. <%= row.price %></td>
               <td>
+                <div class="container-sm" style="width: 10rem;">
+                  <img src="images/<%=row.image %>" class="img-thumbnail" alt="...">
+                </div>
+              </td>
+              <td>
                 <% if (role === 'seller') {%>
                 <a href="/detail/<%= row.id %>" type="button" class="btn btn-info btn-sm mb-2">Detail
                 </a>
-                <form method="post" action="/delete-book/<%= row.id  %>" id="delete-btn" onsubmit="return confirmDelete('<%= row.title %>')" id="delete-btn">
+                <form method="post" action="/delete-book/<%= row.id %>/<%= row.image %>" id="delete-btn" onsubmit="return confirmDelete('<%= row.title %>')" id="delete-btn">
                   <button type="submit" class="btn btn-danger btn-sm">
                     Delete
                   </button>

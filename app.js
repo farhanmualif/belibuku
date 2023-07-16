@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const session = require('express-session');
 const flash = require('connect-flash')
+const fileUpload = require('express-fileupload')
 const router = require('./router/router')
 const app = express()
 
@@ -26,6 +27,12 @@ app.use(
 );
 
 app.use(express.json())
+app.use(fileUpload({
+  limits:{
+    fileSize: 10000000
+  },
+  abortOnLimit: true
+}))
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

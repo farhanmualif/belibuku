@@ -6,6 +6,7 @@ const user = new userModel()
 const address = new addressModel()
 
 async function showCart(req, res){
+  console.log(req.session.userId)
   try {
     const row = await cart.getCartProduct(req.session.userId)
     let user_id = 0

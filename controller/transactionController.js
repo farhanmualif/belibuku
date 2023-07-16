@@ -3,7 +3,6 @@ const transaction = new transactionModel()
 
 async function createTransaction(req, res) {
   try {
-    console.log(req.body)
     const insertTransaction = await transaction.create(Object.values(req.body))
     console.log('insert transaction: ',insertTransaction)
     req.flash('success','pemesanan berhasil dibuat')
@@ -14,15 +13,22 @@ async function createTransaction(req, res) {
   }
 }
 
-async function getTransaction(req, res){
-  try {
-    const getTransaction = await transaction.getTransaction(req.params.id)
-    console.log(getTransaction)
+async function getMyTransaction(req, res){
+  transaction.getTransaction(req)
+  .then((result) => {
+    console.log(result)
     return res.render('myBooking')
-  } catch (error) {
-    console.log(error)
-    throw error
-  }
+  }).catch((err) => {
+    throw err
+  });
+  // const id = req.params.id
+  // console.log('book id : ',id)
+  // try {
+  //   await transaction.getTransaction(req)
+  //   return res.render('myBooking')
+  // } catch (error) {
+  //   throw error
+  // }
 }
 
-module.exports = {createTransaction, getTransaction}
+module.exports = {createTransaction, getMyTransaction}
