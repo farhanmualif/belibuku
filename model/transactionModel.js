@@ -21,16 +21,21 @@ class transactionModel extends model
     })
   }
 
-  getTransaction(req){
-    const id = req.params.id
-    const query = `SELECT tb_book.*, transaction.*
-    FROM users
-    JOIN transaction ON users.id = transaction.cust_id
-    JOIN tb_book ON transaction.book_id = tb_book.id
-    WHERE users.id = ${id}`
+  getTransaction(id){
+    db.connect()
     return new Promise((solve, reject)=>{
-      db.connect()
-      return db.query(query,(err, result)=>{
+      return db.query('SELECT * FROM users JOIN transaction ON users.id = transaction.cust_id JOIN tb_book ON transaction.book_id = tb_book.id WHERE users.id = ?',[id] ,(err, result)=>{
+        if (err) {
+          reject(err)
+        }
+        solve(result)
+      })
+    })
+  }
+  incomeTransaction(id){
+    db.connect()
+    return new Promise((solve, reject)=>{
+      return db.query('SELECT * FROM users JOIN transaction ON users.id = transaction.seller_id JOIN tb_book ON transaction.book_id = tb_book.id WHERE users.id = ?',[id] ,(err, result)=>{
         if (err) {
           reject(err)
         }

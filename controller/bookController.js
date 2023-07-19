@@ -87,14 +87,21 @@ async function remove(req, res) {
       req.flash('failure','gagal menghapus data')
       throw err
     }
+    // delete from folder
+    const image = await book.where('id',req.params.id)
+    image.forEach(e => {
+      if (e.image !== 'default.png') {
+        console.log(e.image)
+        fs.unlink(`public/images/${e.image}`,err=>{
+          if (err) {
+            throw err
+          }
+          console.log('berhasil hapus dari folder')
+        })
+      }
+    });
     // delete from database
     await book.deleteWhere('id','=',req.params.id)
-    // delete from folder
-    if (req.params.img !== 'default.png') {
-      fs.unlink(`public/images/${req.params.img}`,()=>{
-        console.log('berhasil delete image from folder')
-      })
-    }
     db.commit(err=>{
       if (err) {
         throw err

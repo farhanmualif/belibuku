@@ -82,8 +82,6 @@ class model
       })
     })
   }
-
-
   delete(id){
     db.connect()
     return new Promise((solve,reject)=>{
@@ -105,6 +103,17 @@ class model
     const seconds = date.getSeconds();
     const datenow = `'${day}-${month}-${year} ${hours}:${minutes}:${seconds}'`
     return datenow
+  }
+  
+  getCartProductUserAddress(id_cart){
+    return new Promise((solve, reject)=>{
+      return db.query(`SELECT users.name, users.email, users.id AS cust_id, address.address, address.country, tb_book.id, tb_book.price FROM cart JOIN users on users.id=cart.cust_id JOIN tb_book ON cart.book_id = book.id JOIN address ON address.user_id = users.id WHERE cart.id = ? `,[id_cart],(err,result)=>{
+        if (err) {
+          reject(err)
+        }
+        solve(result)
+      })
+    })
   }
 }
 

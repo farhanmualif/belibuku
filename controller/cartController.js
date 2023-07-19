@@ -4,19 +4,12 @@ const userModel = require('../model/userModel')
 const cart = new cartModel()
 const user = new userModel()
 const address = new addressModel()
-
+// sampai add cart
 async function showCart(req, res){
-  console.log(req.session.userId)
   try {
-    const row = await cart.getCartProduct(req.session.userId)
-    let user_id = 0
-    if (row[0] != undefined) {
-      user_id = row[0].id
-    } else {
-      user_id = 0
-    }
-    const owner = await user.getUserWhereBookId(user_id)
-    return res.render('cart',{row, owner})
+    const row = await cart.getCartProductWhereUserId(req.session.userId)
+    console.log(row)
+    return res.render('cart',{row})
   } catch (error) {
     console.log(error)
   }
@@ -33,11 +26,9 @@ async function addCart(req, res) {
 }
 
 async function checkoutPage(req, res) {
-  const userAddress = await address.getCountryUser(req.session.userId)
-  const {data} = req.body
-  const datas = JSON.parse(data)
+  // const getCartBookUser = cart.getCartProductAddressWhereUserId(req.params.id)
+
   return res.render('checkout',{req, datas, userAddress})
 }
-
 
 module.exports = { addCart, showCart, checkoutPage }

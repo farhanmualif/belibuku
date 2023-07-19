@@ -8,11 +8,9 @@ $(document).ready(function(){
   });
 });
 
-
 const confirmDelete = (title) => {
   return confirm(`Yakin ingin hapus buku ${title} ?`);
 }
-
 
 let totalCount = 0;
 let totalPrice = 0;
@@ -26,10 +24,7 @@ $('input[type="checkbox"]').on('change', function() {
   const price = $(this).data('price');
 
   const currentRow = $(this).closest("tr");
-  const id_seller = currentRow.find('td:eq(5)').text()
-  const seller_id = parseInt(id_seller);
   const getCount = currentRow.find('td:eq(4)').text();
-  const idBook = currentRow.find('td:eq(0)').text()
   const count = parseInt(getCount);
   const title = currentRow.find('td:eq(1)').text();
 
@@ -46,7 +41,8 @@ $('input[type="checkbox"]').on('change', function() {
 
   totalPrice = totalCount * price;
   if (checkLength > 0 && $('.button-pay').length === 0) {
-    $('#form-data').append('<button type="submit" class="btn btn-primary btn-sm button-pay" id="pay-now">Checkout</button>');
+    $('#form-data').append('<a href="checkout-page" class="btn btn-primary btn-sm button-pay" id="pay-now">Checkout</a>');
+    // $('#form-data').append('<button type="submit" class="btn btn-primary btn-sm button-pay" id="pay-now">Checkout</button>');
   } else if (checkLength === 0) {
     $('.button-pay').remove();
   }
@@ -54,15 +50,6 @@ $('input[type="checkbox"]').on('change', function() {
   $('#jumlah').text(totalCount);
   $('#total-price').html(`<label class="badge text-bg-success">Rp. ${totalPrice}</label>`);
 
-  $("#pay-now").on("click", ()=>{
-    book.push({seller_id: seller_id, book_id: idBook, title: title, count: count, price: price})
-    let struct = {
-      books : book,
-      totalCount,
-      totalPrice,
-  }
-  $('#data').val(JSON.stringify(struct))
-})
 });
 
 
