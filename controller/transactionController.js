@@ -1,18 +1,72 @@
 const paymentModel = require('../model/paymentMoodel')
 const transactionModel = require('../model/transactionModel')
 const transaction = new transactionModel()
-const payment = new paymentModel()
+const payModel = new paymentModel()
+const db = require('../config/Database')
 
 async function createTransaction(req, res) {
   try {
-    // console.log(req.body)
-    // await transaction.create(Object.values(req.body))
-    // await payment.create()
-    // req.flash('success','pemesanan berhasil dibuat')
-    return res.redirect('/home')
+    const { bookdata, fullname, email, address, country, payment, zip } = req.body;
+    const datas = JSON.parse(bookdata);
+    const book = datas.book;
+
+    for (const e of book) {
+      try {
+        await new Promise((resolve, reject) => {
+          db.beginTransaction(async (err) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+
+            try {
+              // insert into transaction
+              const insertTransaction = await transaction.create([
+                fullname,
+                e.book_id,
+                e.seller_id,
+                req.session.userId,
+                email,
+                address,
+                country,
+                zip,
+                parseInt(e.count),
+                parseInt(e.price),
+                'packed',
+              ])
+
+              // insert into payment
+              await payModel.create([
+                insertTransaction.insertId,
+                datas.totalPrice,
+                datas.totalCount,
+                payment,
+              ]);
+
+              db.commit((err) => {
+                if (err) {
+                  reject(err);
+                  return;
+                }
+                resolve();
+              });
+            } catch (error) {
+              db.rollback(() => {
+                reject(error);
+              });
+            }
+          });
+        });
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    req.flash('success', 'Berhasil membuat pemesanan');
+    return res.redirect('/home');
   } catch (error) {
-    console.log(error)
-    throw error
+    console.log(error);
+    throw error;
   }
 }
 

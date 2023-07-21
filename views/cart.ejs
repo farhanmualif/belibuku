@@ -32,7 +32,7 @@
                     <tbody>
                       <% row.forEach(e => { %>
                         <tr>
-                          <td style="display: none;"><%= e.id %></td>
+                          <td style="display: none;"><%= e.book_id %></td>
                           <td><%= e.title  %></td>
                           <td><%= e.author  %></td>
                           <td><%= e.publisher  %></td>
@@ -54,7 +54,8 @@
                         <td>
                          jumlah
                         </td>
-                        <td></td>
+                        <td>
+                        </td>
                         <td></td>
                         <td id="jumlah">
                          0
@@ -64,7 +65,7 @@
                         </td>
                         <td>
                           <div class="container">
-                            <form action="/checkout-page/" method="post" id="form-data">
+                            <form action="/checkout-page" method="post" id="form-data">
                               <input type="text" name="data" id="data" hidden>
                             </form>
                           </div>

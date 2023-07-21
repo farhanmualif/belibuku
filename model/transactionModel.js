@@ -5,7 +5,7 @@ class transactionModel extends model
   constructor(){
     super()
     this.table = 'transaction'
-    this.fields = ['fullname','book_id','seller_id','cust_id','email','address','country','zip','paymentMethod','created_at']
+    this.fields = ['fullname','book_id','seller_id','cust_id','email','address','country','zip','count','price','status','created_at']
   }
 
   insertTransaction(seller_id, cust_id, book_id, address, payment, timeStamps){

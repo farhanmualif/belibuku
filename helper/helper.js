@@ -1,5 +1,5 @@
 const db = require('../config/Database')
-
+const randomstring = require('randomstring')
 
 function getRole(id) {
   db.connect()
@@ -13,4 +13,11 @@ function getRole(id) {
   })
 }
 
-module.exports = { getRole }
+function getRandomString(length) {
+  return randomstring.generate({
+    length: length,
+    charset: ['numeric', 'alphabetic']
+  });
+}
+
+module.exports = { getRole, getRandomString }

@@ -7,7 +7,7 @@ class cartModel extends model
   {
     super()
     this.table = 'cart'
-    this.fields = ['book_id','cust_id','seller_id','created_at']
+    this.fields = ['cart_code','book_id','cust_id','seller_id','created_at']
   }
 
   getCartProductWhereUserId(cust_id){

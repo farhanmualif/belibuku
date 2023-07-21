@@ -20,42 +20,55 @@ $('#jumlah').text(totalCount);
 $('#total-price').html(`<label class="badge text-bg-success">Rp. ${totalPrice}</label>`);
 
 $('input[type="checkbox"]').on('change', function() {
-
-  const price = $(this).data('price');
-
+  
+// get price
   const currentRow = $(this).closest("tr");
   const getCount = currentRow.find('td:eq(4)').text();
-  const count = parseInt(getCount);
+  const book_id = currentRow.find('td:eq(0)').text()
   const title = currentRow.find('td:eq(1)').text();
+  const price = parseInt(currentRow.find(".badge").text().replace("Rp. ",""))
+  const count = parseInt(getCount);
+  const seller_id = currentRow.find('td:eq(5)').text()
 
   let checkLength = $('input[type="checkbox"]:checked').length;
   if (this.checked) {
     totalCount = totalCount + count;
+    totalPrice = totalPrice + (count*price)
+    
   } else {
     totalCount = totalCount - count;
-    const index = book.indexOf(title);
+    totalPrice = totalPrice - (count*price);
+    const index = book.map(obj => obj.title).indexOf(title)
     if (index > -1) { // only splice array when item is found
       book.splice(index, 1); // 2nd parameter means remove one item only
     }
   }
-
-  totalPrice = totalCount * price;
+  book.push({book_id, seller_id, title, count, price})
+  const data = {
+    book,
+    totalCount,
+    totalPrice
+  }
   if (checkLength > 0 && $('.button-pay').length === 0) {
-    $('#form-data').append('<a href="checkout-page" class="btn btn-primary btn-sm button-pay" id="pay-now">Checkout</a>');
-    // $('#form-data').append('<button type="submit" class="btn btn-primary btn-sm button-pay" id="pay-now">Checkout</button>');
+    $('#form-data').append('<button type="submit" class="btn btn-primary btn-sm button-pay" id="btn-submit">Checkout</button>');
   } else if (checkLength === 0) {
     $('.button-pay').remove();
   }
 
   $('#jumlah').text(totalCount);
   $('#total-price').html(`<label class="badge text-bg-success">Rp. ${totalPrice}</label>`);
-
+  
+  $('form').on('submit',function(){
+    $('#data').val(JSON.stringify(data))
+  })
 });
 
 
+
+
 $('input[type=radio]').on('change', function() { 
-  if ($(this).val() == 'bni') {
-      $('#for-number-card').html(`
+  if ($(this).val() == 'transfer') {
+      $('#card-number').html(`
       <div id="number-card">
       <label for="cc-name">Name on card</label>
       <input type="text" class="form-control" id="cc-name" placeholder="" required>

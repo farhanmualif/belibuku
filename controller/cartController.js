@@ -1,23 +1,22 @@
-const addressModel = require('../model/addressModel')
+const { getRandomString } = require('../helper/helper')
 const cartModel  = require('../model/cartModel')
-const userModel = require('../model/userModel')
 const cart = new cartModel()
-const user = new userModel()
-const address = new addressModel()
-// sampai add cart
+
+// sampai add carthttps://www.showroom-live.com/
 async function showCart(req, res){
   try {
     const row = await cart.getCartProductWhereUserId(req.session.userId)
-    console.log(row)
-    return res.render('cart',{row})
+    return res.render('cart',{row, req})
   } catch (error) {
-    console.log(error)
+    throw error
   }
 }
 
 async function addCart(req, res) {
+  const {book_id, cust_id, seller_id} = req.body
+  const cart_code = getRandomString(10)
   try {
-    cart.create(Object.values(req.body))
+    cart.create(Object.values([cart_code,book_id,cust_id,seller_id]))
     req.flash('success', 'berhasil menambahkan buku ke keranjang')
     return res.redirect('/home')
   } catch (error) {
@@ -26,9 +25,9 @@ async function addCart(req, res) {
 }
 
 async function checkoutPage(req, res) {
-  // const getCartBookUser = cart.getCartProductAddressWhereUserId(req.params.id)
-
-  return res.render('checkout',{req, datas, userAddress})
+  const { data } = req.body
+  let row = JSON.parse(data)
+  return res.render('checkout',{row, req})
 }
 
 module.exports = { addCart, showCart, checkoutPage }
