@@ -5,20 +5,7 @@ class transactionModel extends model
   constructor(){
     super()
     this.table = 'transaction'
-    this.fields = ['fullname','book_id','seller_id','cust_id','email','address','country','zip','count','price','status','created_at']
-  }
-
-  insertTransaction(seller_id, cust_id, book_id, address, payment, timeStamps){
-    return new Promise((solve, reject)=>{
-      db.connect()
-      return db.query(`INSERT INTO ${this.table} "seller_id, cust_id, book_id, address, payment, timeStamps"} ) VALUES 
-      (${seller_id, cust_id, book_id, address, payment, timeStamps})`, (err, result)=>{
-        if (err) {
-          reject(err)
-        }
-        solve(result)
-      })
-    })
+    this.fields = ['transaction_code','fullname','book_id','seller_id','cust_id','email','address','country','zip','count','price','status','created_at']
   }
 
   getTransaction(id){

@@ -3,13 +3,15 @@ const transactionModel = require('../model/transactionModel')
 const transaction = new transactionModel()
 const payModel = new paymentModel()
 const db = require('../config/Database')
+const { getRandomString } = require('../helper/helper')
 
 async function createTransaction(req, res) {
+  
   try {
     const { bookdata, fullname, email, address, country, payment, zip } = req.body;
     const datas = JSON.parse(bookdata);
     const book = datas.book;
-
+    const transactionCode = getRandomString(10)
     for (const e of book) {
       try {
         await new Promise((resolve, reject) => {
@@ -22,6 +24,7 @@ async function createTransaction(req, res) {
             try {
               // insert into transaction
               const insertTransaction = await transaction.create([
+                transactionCode,
                 fullname,
                 e.book_id,
                 e.seller_id,
@@ -37,7 +40,7 @@ async function createTransaction(req, res) {
 
               // insert into payment
               await payModel.create([
-                insertTransaction.insertId,
+                transactionCode,
                 datas.totalPrice,
                 datas.totalCount,
                 payment,

@@ -5,7 +5,7 @@ class paymentModel extends model
   constructor(){
     super()
     this.table = 'payment'
-    this.fields = ['transaction_id','totalPrice','totalCount','payment','created_at']
+    this.fields = ['transaction_code','totalPrice','totalCount','payment','created_at']
   }
 }
 
